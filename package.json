@@ -24,6 +24,7 @@
     "gh-pages": "^6.3.0",
     "sass": "^1.85.1",
     "typescript": "^5.8.2",
-    "vite-plugin-eslint2": "^5.0.3"
+    "vite-plugin-eslint2": "^5.0.3",
+    "vue-tsc": "^2.2.8"
   }
 }

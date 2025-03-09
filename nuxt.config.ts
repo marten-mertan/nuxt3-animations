@@ -8,49 +8,27 @@ export default defineNuxtConfig({
 
   app: {
     baseURL: '/nuxt3-animations/',
-
-    /**
-     * Метатеги, фавиконки и т.п
-     * Для генерации фавиконок - https://realfavicongenerator.net/
-     */
-
     head: {
       htmlAttrs: {
         lang: 'en',
       },
-      title: 'Nuxt3 Template',
+      title: 'Nuxt3 Animations Test',
+
+      /**
+       * Метатеги, фавиконки и т.п
+       * Для генерации фавиконок - https://realfavicongenerator.net/
+       */
+
       meta: [
-        {
-          charset: 'utf-8',
-        },
-        {
-          name: 'viewport',
-          content: 'width=device-width, initial-scale=1',
-        },
-        {
-          name: 'title',
-          content: 'Nuxt3 Template',
-        },
-        {
-          name: 'description',
-          content: 'Nuxt3 Template description',
-        },
-        {
-          name: 'author',
-          content: 'Mertan',
-        },
-        /* Favicons */
-        {
-          name: 'msapplication-TileColor',
-          content: '#e7609e',
-        },
-        {
-          name: 'theme-color',
-          content: '#ffffff',
-        },
+        { charset: 'utf-8' },
+        { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+        { name: 'title', content: 'Nuxt3 Animations Test' },
+        { name: 'description', content: 'Nuxt3 Animations Test description' },
+        { name: 'author', content: 'Mertan' },
+        { name: 'msapplication-TileColor', content: '#e7609e' },
+        { name: 'theme-color', content: '#ffffff' },
       ],
       link: [
-        /* Favicons */
         { rel: 'icon', type: 'image/x-icon', href: '/nuxt3-animations/favicons/favicon.ico' },
         { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/nuxt3-animations/favicons/favicon-32x32.png' },
         { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/nuxt3-animations/favicons/favicon-16x16.png' },
@@ -68,9 +46,6 @@ export default defineNuxtConfig({
 
   compatibilityDate: '2025-03-09',
 
-  /**
-   * Миксины и переменные доступны во всех компонентах и во всех scss файлах
-   */
   vite: {
     css: {
       preprocessorOptions: {
@@ -79,6 +54,29 @@ export default defineNuxtConfig({
         },
       },
     },
+    // Добавляем настройки для обработки .vue-файлов с TypeScript
+    vue: {
+      script: {
+        defineModel: true, // Поддержка defineModel для TS
+        propsDestructure: true, // Поддержка деструктуризации пропсов
+      },
+    },
+    // Оптимизация обработки TypeScript
+    esbuild: {
+      target: 'esnext', // Устанавливаем современную цель для TS
+      tsconfigRaw: {
+        compilerOptions: {
+          experimentalDecorators: true, // Если используете декораторы
+        },
+      },
+    },
+  },
+
+  // Добавляем настройки TypeScript
+  typescript: {
+    strict: true,
+    shim: false,
+    typeCheck: true,
   },
 
   eslint: {
