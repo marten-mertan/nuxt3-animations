@@ -1,7 +1,7 @@
 <!-- IndexPage.vue -->
 <script setup lang="ts">
-import { useCharacterMovement } from '~/composables/useCharacterMovement'
 import { onMounted, onUnmounted, ref } from 'vue'
+import { useCharacterMovement } from '~/composables/useCharacterMovement'
 
 const animator = ref()
 const movement = useCharacterMovement()
@@ -58,11 +58,21 @@ onMounted(() => {
       :is-facing-right="movement.isFacingRight.value"
     />
     <div :class="$style.controls">
-      <button @click="moveCharacter('w')">Up</button>
-      <button @click="moveCharacter('a')">Left</button>
-      <button @click="moveCharacter('s')">Down</button>
-      <button @click="moveCharacter('d')">Right</button>
-      <button @click="stopAnimation">Stop</button>
+      <button @click="moveCharacter('w')">
+        Up
+      </button>
+      <button @click="moveCharacter('a')">
+        Left
+      </button>
+      <button @click="moveCharacter('s')">
+        Down
+      </button>
+      <button @click="moveCharacter('d')">
+        Right
+      </button>
+      <button @click="stopAnimation">
+        Stop
+      </button>
     </div>
   </div>
 </template>
@@ -86,7 +96,7 @@ onMounted(() => {
   gap: 1rem;
 
   button {
-    padding: 10px 20px;
+    padding: 1rem 2rem;
     cursor: pointer;
     border: 1px solid $black;
   }

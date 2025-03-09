@@ -1,8 +1,8 @@
 <!-- AnimationSpriteAnimator.vue -->
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, computed } from 'vue'
-import { useSpriteAnimation } from '~/composables/useSpriteAnimation'
+import { ref, onMounted, computed } from 'vue'
 import type { CSSProperties } from 'vue'
+import { useSpriteAnimation } from '~/composables/useSpriteAnimation'
 
 const props = defineProps<{
   animations: {
@@ -42,8 +42,8 @@ onMounted(() => {
         frameHeight: anim.frameHeight,
         frameCount: anim.frameCount,
         frameDuration: anim.frameDuration,
-        onStart: (name) => name !== 'idle' && stopAnimation('idle'),
-        onComplete: (name) => name !== 'idle' && playAnimation('idle', true),
+        onStart: name => name !== 'idle' && stopAnimation('idle'),
+        onComplete: name => name !== 'idle' && playAnimation('idle', true),
       })
     })
     playAnimation('idle', true)
@@ -54,8 +54,15 @@ defineExpose({ playAnimation, stopAnimation })
 </script>
 
 <template>
-  <div :class="$style.AnimationSpriteAnimator" :style="props.positionStyle">
-    <div ref="spriteElement" :class="$style.sprite" :style="scaleStyle" />
+  <div
+    :class="$style.AnimationSpriteAnimator"
+    :style="props.positionStyle"
+  >
+    <div
+      ref="spriteElement"
+      :class="$style.sprite"
+      :style="scaleStyle"
+    />
   </div>
 </template>
 

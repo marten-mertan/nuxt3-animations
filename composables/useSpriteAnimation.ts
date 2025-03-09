@@ -80,7 +80,7 @@ export function useSpriteAnimation() {
       }
 
       if (this.isAnimating.value) {
-        this.animationFrameId = requestAnimationFrame((time) => this.animate(time))
+        this.animationFrameId = requestAnimationFrame(time => this.animate(time))
       }
     }
 
@@ -93,7 +93,7 @@ export function useSpriteAnimation() {
       this.onStart(this.animationName)
       this.updateFrame()
 
-      this.animationFrameId = requestAnimationFrame((timestamp) => this.animate(timestamp))
+      this.animationFrameId = requestAnimationFrame(timestamp => this.animate(timestamp))
 
       if (!loop) {
         return new Promise<void>((resolve) => {
@@ -101,7 +101,8 @@ export function useSpriteAnimation() {
             if (!this.isAnimating.value) {
               this.onComplete(this.animationName)
               resolve()
-            } else {
+            }
+            else {
               requestAnimationFrame(checkComplete)
             }
           }
