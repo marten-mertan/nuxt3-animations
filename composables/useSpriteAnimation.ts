@@ -1,4 +1,17 @@
+// useSpriteAnimation.ts
 import { ref } from 'vue'
+
+interface SpriteAnimationConstructor {
+  element: HTMLElement
+  spriteSheet: string
+  frameWidth: number
+  frameHeight: number
+  frameCount: number
+  frameDuration: number
+  animationName: string
+  onStart?: (name: string) => void
+  onComplete?: (name: string) => void
+}
 
 export function useSpriteAnimation() {
   const animations = new Map<string, SpriteAnimation>()
@@ -17,40 +30,19 @@ export function useSpriteAnimation() {
     private currentFrame = ref(0)
     private isAnimating = ref(false)
     private isLooping = ref(false)
-    private animationQueue: { resolve: () => void, loop: boolean }[] = []
     private animationFrameId: number | null = null
     private lastFrameTime: number = 0
 
-    constructor({
-      element,
-      spriteSheet,
-      frameWidth,
-      frameHeight,
-      frameCount,
-      frameDuration,
-      animationName,
-      onStart = () => {},
-      onComplete = () => {},
-    }: {
-      element: HTMLElement
-      spriteSheet: string
-      frameWidth: number
-      frameHeight: number
-      frameCount: number
-      frameDuration: number
-      animationName: string
-      onStart?: (name: string) => void
-      onComplete?: (name: string) => void
-    }) {
-      this.element = element
-      this.spriteSheet = spriteSheet
-      this.frameWidth = frameWidth
-      this.frameHeight = frameHeight
-      this.frameCount = frameCount
-      this.frameDuration = frameDuration
-      this.animationName = animationName
-      this.onStart = onStart
-      this.onComplete = onComplete
+    constructor(config: SpriteAnimationConstructor) {
+      this.element = config.element
+      this.spriteSheet = config.spriteSheet
+      this.frameWidth = config.frameWidth
+      this.frameHeight = config.frameHeight
+      this.frameCount = config.frameCount
+      this.frameDuration = config.frameDuration
+      this.animationName = config.animationName
+      this.onStart = config.onStart || (() => {})
+      this.onComplete = config.onComplete || (() => {})
       this.initStyles()
     }
 
@@ -72,7 +64,6 @@ export function useSpriteAnimation() {
 
     private animate(timestamp: number) {
       if (!this.lastFrameTime) this.lastFrameTime = timestamp
-
       const elapsed = timestamp - this.lastFrameTime
 
       if (elapsed >= this.frameDuration) {
@@ -84,47 +75,39 @@ export function useSpriteAnimation() {
           this.stop()
           this.onComplete(this.animationName)
           this.isAnimating.value = false
-
-          if (this.animationQueue.length > 0) {
-            const next = this.animationQueue.shift()
-            if (next) this.play(next.loop).then(next.resolve)
-          }
           return
         }
       }
 
       if (this.isAnimating.value) {
-        this.animationFrameId = requestAnimationFrame(time => this.animate(time))
+        this.animationFrameId = requestAnimationFrame((time) => this.animate(time))
       }
     }
 
     async play(loop = false) {
-      if (this.isAnimating.value) {
-        return new Promise<void>((resolve) => {
-          this.animationQueue.push({ resolve, loop })
-        })
-      }
-
+      if (this.isAnimating.value) return
       this.isAnimating.value = true
       this.isLooping.value = loop
       this.currentFrame.value = 0
       this.lastFrameTime = 0
       this.onStart(this.animationName)
-      this.updateFrame() // Устанавливаем первый кадр с правильными размерами
+      this.updateFrame()
 
-      this.animationFrameId = requestAnimationFrame(timestamp => this.animate(timestamp))
+      this.animationFrameId = requestAnimationFrame((timestamp) => this.animate(timestamp))
 
-      return new Promise<void>((resolve) => {
-        const checkComplete = () => {
-          if (!this.isAnimating.value) {
-            resolve()
+      if (!loop) {
+        return new Promise<void>((resolve) => {
+          const checkComplete = () => {
+            if (!this.isAnimating.value) {
+              this.onComplete(this.animationName)
+              resolve()
+            } else {
+              requestAnimationFrame(checkComplete)
+            }
           }
-          else {
-            requestAnimationFrame(checkComplete)
-          }
-        }
-        checkComplete()
-      })
+          checkComplete()
+        })
+      }
     }
 
     stop() {
@@ -135,26 +118,10 @@ export function useSpriteAnimation() {
       this.isAnimating.value = false
       this.isLooping.value = false
     }
-
-    isBusy() {
-      return this.isAnimating.value
-    }
   }
 
   return {
-    addAnimation: (
-      name: string,
-      config: {
-        element: HTMLElement
-        spriteSheet: string
-        frameWidth: number
-        frameHeight: number
-        frameCount: number
-        frameDuration: number
-        onStart?: (name: string) => void
-        onComplete?: (name: string) => void
-      },
-    ) => {
+    addAnimation: (name: string, config: Omit<SpriteAnimationConstructor, 'animationName'>) => {
       animations.set(name, new SpriteAnimation({ animationName: name, ...config }))
     },
     playAnimation: async (name: string, loop = false) => {
@@ -164,7 +131,7 @@ export function useSpriteAnimation() {
     },
     stopAnimation: (name: string) => {
       const animation = animations.get(name)
-      if (animation && animation.isBusy()) animation.stop()
+      if (animation) animation.stop()
     },
   }
 }
