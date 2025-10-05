@@ -1,0 +1,1 @@
+import{_ as t,c as o,o as n,q as e,n as c}from"./CO2j4tte.js";const _="_UiButton_rvqbd_8",r={UiButton:_},l={};function a(s,i){return n(),o("button",{class:c(s.$style.UiButton)},[e(s.$slots,"default")],2)}const u={$style:r},f=t(l,[["render",a],["__cssModules",u]]);export{f as _};

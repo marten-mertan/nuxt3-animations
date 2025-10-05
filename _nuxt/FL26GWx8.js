@@ -1,1 +1,0 @@
-import{_ as a,c as o,a as t,n as c,o as n}from"./9zeDSyTO.js";const r={},l={};function d(e,s){return n(),o("div",{class:c([e.$style.SliderPage,"page"])},s[0]||(s[0]=[t("div",{class:"container"}," SLIDER PAGE ",-1)]),2)}const i={$style:r},f=a(l,[["render",d],["__cssModules",i]]);export{f as default};
