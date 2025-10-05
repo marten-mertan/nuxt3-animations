@@ -1,4 +1,3 @@
-<!-- AnimationSpriteAnimator.vue -->
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
 import type { CSSProperties } from 'vue'
@@ -55,7 +54,7 @@ defineExpose({ playAnimation, stopAnimation })
 
 <template>
   <div
-    :class="$style.AnimationSpriteAnimator"
+    :class="$style.SpriteAnimator"
     :style="props.positionStyle"
   >
     <div
@@ -67,7 +66,7 @@ defineExpose({ playAnimation, stopAnimation })
 </template>
 
 <style lang="scss" module>
-.AnimationSpriteAnimator {
+.SpriteAnimator {
   position: absolute;
   display: flex;
   justify-content: center;

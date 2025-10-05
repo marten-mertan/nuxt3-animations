@@ -2,15 +2,15 @@
 </script>
 
 <template>
-  <div :class="[$style.IndexPage, 'page']">
+  <div :class="[$style.SliderPage, 'page']">
     <div class="container">
-      INDEX
+      SLIDER PAGE
     </div>
   </div>
 </template>
 
 <style lang="scss" module>
-.IndexPage {
+.SliderPage {
   //
 }
 </style>

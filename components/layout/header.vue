@@ -10,9 +10,10 @@
           href="/"
           :class="$style.link"
         >
-          TITLE
+          Nuxt3 Animations
         </NuxtLink>
       </div>
+      <LayoutHeaderMenu />
     </div>
   </header>
 </template>

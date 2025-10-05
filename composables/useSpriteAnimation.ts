@@ -1,4 +1,3 @@
-// useSpriteAnimation.ts
 import { ref } from 'vue'
 
 interface SpriteAnimationConstructor {
