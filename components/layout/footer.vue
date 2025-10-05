@@ -19,7 +19,7 @@
 
 <style lang="scss" module>
   .Footer {
-      position: relative;
+    position: relative;
     z-index: 10;
     background: $black;
   }
