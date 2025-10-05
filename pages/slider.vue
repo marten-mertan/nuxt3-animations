@@ -4,7 +4,13 @@
 <template>
   <div :class="[$style.SliderPage, 'page']">
     <div class="container">
-      SLIDER PAGE
+      <SliderMosaic
+        :images="[
+          '../img/catDefault1.png',
+          '../img/catDefault2.png',
+          '../img/catDefault3.png',
+        ]"
+      />
     </div>
   </div>
 </template>
