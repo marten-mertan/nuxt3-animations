@@ -78,7 +78,7 @@ const sliderDuration = ref(1000)
   padding-left: 2rem;
 
   @include respond-to(mobile) {
-    padding: 2rem 0 0 0;
+    padding-left: 0;
   }
 }
 
