@@ -1,5 +1,5 @@
 <script setup lang="ts">
-type Tile = {
+type TTile = {
   sx: number
   sy: number
   sw: number
@@ -10,18 +10,44 @@ type Tile = {
   dh: number
 }
 
-const ROWS = 10
-const COLS = 10
-const DELAY = 1000 // максимальная задержка для тайла, мс
-const DURATION = 2000 // длительность анимации для каждого тайла, мс
+type TOptions = {
+  width?: number
+  height?: number
+  rows?: number
+  cols?: number
+  delay?: number
+  duration?: number
+}
+
+type TProps = {
+  images: string[]
+  options?: TOptions
+}
+
+const props = withDefaults(defineProps<TProps>(), {
+  options: () => ({}),
+})
+
+const options = {
+  width: 768,
+  height: 512,
+  rows: 10,
+  cols: 10,
+  delay: 1000, // максимальная задержка для тайла, мс
+  duration: 2000, // длительность анимации для каждого тайла, мс
+  ...props.options,
+}
+
+watchEffect(() => {
+  options.rows = props.options?.rows || 10
+  options.cols = props.options?.cols || 10
+  options.delay = props.options?.delay === 0 ? 0 : props.options?.delay || 1000
+  options.duration = props.options?.duration || 2000
+})
 
 const canvas = ref<HTMLCanvasElement | null>(null)
 const prevBtn = ref<HTMLElement | null>(null)
 const nextBtn = ref<HTMLElement | null>(null)
-
-const props = defineProps<{
-  images: string[]
-}>()
 
 const currentIndex = ref(0)
 const ctx = ref<CanvasRenderingContext2D | null>(null)
@@ -46,14 +72,14 @@ const init = async () => {
   ctx.value?.drawImage(currentImg.value, 0, 0, canvas.value.width, canvas.value.height)
 }
 
-const splitIntoTiles = (img: HTMLImageElement, rows: number, cols: number): Tile[] => {
+const splitIntoTiles = (img: HTMLImageElement, rows: number, cols: number): TTile[] => {
   if (!canvas.value) {
     return []
   }
 
   const tileW = canvas.value.width / cols
   const tileH = canvas.value.height / rows
-  const tiles: Tile[] = []
+  const tiles: TTile[] = []
   for (let r = 0; r < rows; r++) {
     for (let c = 0; c < cols; c++) {
       const sx = c * img.width / cols
@@ -88,15 +114,15 @@ const animateTo = async (nextIndex: number) => {
 
   const srcImg = currentImg.value
   const tgtImg = await loadImage(props.images[nextIndex])
-  const srcTiles = splitIntoTiles(srcImg, ROWS, COLS)
-  const tgtTiles = splitIntoTiles(tgtImg, ROWS, COLS)
+  const srcTiles = splitIntoTiles(srcImg, options.rows, options.cols)
+  const tgtTiles = splitIntoTiles(tgtImg, options.rows, options.cols)
   const tgtShuffled = [...tgtTiles].sort(() => Math.random() - 0.5)
 
-  const pieces: { s: Tile, t: Tile, delay: number }[] = []
+  const pieces: { s: TTile, t: TTile, delay: number }[] = []
   for (let i = 0; i < srcTiles.length; i++) {
     const s = srcTiles[i]
     const t = tgtShuffled[i]
-    const delay = Math.random() * DELAY
+    const delay = Math.random() * options.delay
     pieces.push({
       s,
       t,
@@ -104,7 +130,7 @@ const animateTo = async (nextIndex: number) => {
     })
   }
 
-  const totalDuration = DURATION + Math.max(...pieces.map(p => p.delay), 0)
+  const totalDuration = options.duration + Math.max(...pieces.map(p => p.delay), 0)
 
   let start: number | null = null
   const step = (ts: number) => {
@@ -129,7 +155,7 @@ const animateTo = async (nextIndex: number) => {
       const pieceElapsed = elapsed - p.delay
       let pieceProgress = 0
       if (pieceElapsed > 0) {
-        pieceProgress = Math.min(1, pieceElapsed / DURATION)
+        pieceProgress = Math.min(1, pieceElapsed / options.duration)
       }
       const x = p.s.dx + (p.t.dx - p.s.dx) * pieceProgress
       const y = p.s.dy + (p.t.dy - p.s.dy) * pieceProgress
@@ -163,8 +189,8 @@ onMounted(() => {
   <div :class="$style.SliderMosaic">
     <canvas
       ref="canvas"
-      width="768"
-      height="512"
+      :width="options.width"
+      :height="options.height"
       :class="$style.canvas"
     />
     <div :class="$style.controls">
