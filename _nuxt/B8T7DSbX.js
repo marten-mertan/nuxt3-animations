@@ -1,0 +1,1 @@
+import{_ as t,c as o,o as e,E as n,s as c}from"#entry";const _="_UiButton_rvqbd_8",r={UiButton:_},l={};function a(s,i){return e(),o("button",{class:c(s.$style.UiButton)},[n(s.$slots,"default")],2)}const u={$style:r},f=t(l,[["render",a],["__cssModules",u]]);export{f as _};

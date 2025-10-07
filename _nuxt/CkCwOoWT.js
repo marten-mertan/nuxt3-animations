@@ -1,0 +1,1 @@
+import{_ as a,c as o,a as n,s as t,o as c}from"#entry";const r={},l={};function d(e,s){return c(),o("div",{class:t([e.$style.IndexPage,"page"])},[...s[0]||(s[0]=[n("div",{class:"container"}," INDEX ",-1)])],2)}const i={$style:r},f=a(l,[["render",d],["__cssModules",i]]);export{f as default};
