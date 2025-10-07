@@ -44,7 +44,18 @@ export default defineNuxtConfig({
     '~/assets/scss/common.scss',
   ],
 
+  routeRules: {
+    '/**': { prerender: true },
+  },
+
   compatibilityDate: '2025-03-09',
+
+  nitro: {
+    preset: 'github_pages',
+    prerender: {
+      crawlLinks: true,
+    },
+  },
 
   vite: {
     css: {
