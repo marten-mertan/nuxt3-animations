@@ -2,6 +2,7 @@
 export default defineNuxtConfig({
   modules: [
     '@nuxt/eslint',
+    'nuxt-github-pages',
   ],
 
   devtools: { enabled: true },
@@ -45,7 +46,9 @@ export default defineNuxtConfig({
   ],
 
   routeRules: {
-    '/**': { prerender: true },
+    '/**': {
+      prerender: true,
+    },
   },
 
   compatibilityDate: '2025-03-09',
@@ -94,5 +97,10 @@ export default defineNuxtConfig({
     config: {
       stylistic: true,
     },
+  },
+
+  githubPages: {
+    canonicalUrls: true,
+    trailingSlash: true,
   },
 })
