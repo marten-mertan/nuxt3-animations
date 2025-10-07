@@ -1,0 +1,1 @@
+import{_ as t,c as a,a as o,n as c,o as n}from"./ByC9n92W.js";const r={},l={};function d(e,s){return n(),a("div",{class:c([e.$style.TestPage,"page"])},s[0]||(s[0]=[o("div",{class:"container"}," TEST ",-1)]),2)}const _={$style:r},f=t(l,[["render",d],["__cssModules",_]]);export{f as default};
