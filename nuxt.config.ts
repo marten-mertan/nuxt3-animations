@@ -8,8 +8,6 @@ export default defineNuxtConfig({
 
   app: {
     baseURL: '/nuxt3-animations/',
-    // @ts-expect-error Nuxt app config does not officially support trailingSlash yet
-    trailingSlash: true,
     head: {
       htmlAttrs: {
         lang: 'en',
@@ -46,21 +44,7 @@ export default defineNuxtConfig({
     '~/assets/scss/common.scss',
   ],
 
-  routeRules: {
-    '/**': {
-      prerender: true,
-    },
-  },
-
   compatibilityDate: '2025-03-09',
-
-  nitro: {
-    preset: 'github_pages',
-    prerender: {
-      crawlLinks: true,
-      autoSubfolderIndex: true,
-    },
-  },
 
   vite: {
     css: {

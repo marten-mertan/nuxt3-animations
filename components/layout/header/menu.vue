@@ -5,13 +5,13 @@
 <template>
   <header :class="$style.HeaderMenu">
     <NuxtLink
-      href="/sprite/"
+      to="/sprite/"
       :class="$style.link"
     >
       Sprite
     </NuxtLink>
     <NuxtLink
-      href="/slider/"
+      to="/slider/"
       :class="$style.link"
     >
       Slider
