@@ -2,13 +2,14 @@
 export default defineNuxtConfig({
   modules: [
     '@nuxt/eslint',
-    'nuxt-github-pages',
   ],
 
   devtools: { enabled: true },
 
   app: {
     baseURL: '/nuxt3-animations/',
+    // @ts-expect-error Nuxt app config does not officially support trailingSlash yet
+    trailingSlash: true,
     head: {
       htmlAttrs: {
         lang: 'en',
@@ -56,7 +57,8 @@ export default defineNuxtConfig({
   nitro: {
     preset: 'github_pages',
     prerender: {
-      autoSubfolderIndex: false,
+      crawlLinks: true,
+      autoSubfolderIndex: true,
     },
   },
 
@@ -97,10 +99,5 @@ export default defineNuxtConfig({
     config: {
       stylistic: true,
     },
-  },
-
-  githubPages: {
-    canonicalUrls: true,
-    trailingSlash: true,
   },
 })
